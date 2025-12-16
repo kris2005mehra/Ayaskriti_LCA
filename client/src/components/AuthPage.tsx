@@ -46,7 +46,8 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
         {/* Background Image from public/ */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(/back_image.png)` }}
+          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}back_image.png)`,
+}}
         />
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />

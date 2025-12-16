@@ -109,7 +109,7 @@ function AyaskritiApp() {
     <div
       className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `url(/back_image.png)`, // ✅ use public folder path
+        backgroundImage: `url(${import.meta.env.BASE_URL}back_image.png)`,
         filter: "blur(3px)",
         opacity: 0.45,
       }}

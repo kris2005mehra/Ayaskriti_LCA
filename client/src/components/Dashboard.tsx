@@ -82,7 +82,8 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
       <div className="fixed inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{ backgroundImage: `url(/back_image.png)` }}
+          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}back_image.png)`,
+ }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
 

@@ -8,6 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
+  // 👇 Important for GitHub Pages: repo name in URL
+  base: "/Ayaskriti_LCA/",
+
   plugins: [react()],
 
   resolve: {
@@ -21,7 +24,8 @@ export default defineConfig({
   root: path.resolve(__dirname, "client"),
 
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    // 👇 easier deployment for GitHub Pages
+    outDir: path.resolve(__dirname, "dist"),
     emptyOutDir: true,
   },
 

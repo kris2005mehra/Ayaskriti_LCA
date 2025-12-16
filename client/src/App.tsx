@@ -17,8 +17,6 @@ import RecommendationsPage from "@/components/RecommendationsPage";
 /* 🔥 Custom Cursor */
 import CustomCursor from "@/components/CustomCursor";
 
-/* 🔥 GLOBAL BACKGROUND IMAGE */
-import appBg from "./assets/back_image.png";
 
 type AppView =
   | "auth"
@@ -106,19 +104,20 @@ function AyaskritiApp() {
     <div className="min-h-screen relative overflow-hidden bg-black">
       
       {/* 🌑 BACKGROUND — ONLY AFTER LOGIN */}
-      {user && (
-        <>
-          <div
-            className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url(${appBg})`,
-              filter: "blur(3px)",
-              opacity: 0.45,
-            }}
-          />
-          <div className="fixed inset-0 -z-10 bg-black/70" />
-        </>
-      )}
+{user && (
+  <>
+    <div
+      className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(/back_image.png)`, // ✅ use public folder path
+        filter: "blur(3px)",
+        opacity: 0.45,
+      }}
+    />
+    <div className="fixed inset-0 -z-10 bg-black/70" />
+  </>
+)}
+
 
       {/* 🔥 CUSTOM CURSOR */}
       <CustomCursor />

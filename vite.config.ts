@@ -3,16 +3,12 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// ✅ ESM-safe __dirname replacement
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
-  // 👇 Important for GitHub Pages: repo name in URL
-  base: "/Ayaskriti_LCA/",
-
+  base: "/Ayaskriti_LCA/", // ✅ add this
   plugins: [react()],
-
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client", "src"),
@@ -20,18 +16,12 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
-
   root: path.resolve(__dirname, "client"),
-
   build: {
-    // 👇 easier deployment for GitHub Pages
-    outDir: path.resolve(__dirname, "dist"),
+    outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
-
   server: {
-    fs: {
-      strict: true,
-    },
+    fs: { strict: true },
   },
 });

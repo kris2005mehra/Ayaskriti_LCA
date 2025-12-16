@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import GlassCard from "./GlassCard";
 import { Factory, Flame, Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
-import foundryImage from "@assets/generated_images/indian_steel_foundry_molten_metal.png";
+import foundryImage from "./assets/back_image.png";
 
 interface AuthPageProps {
   onAuthenticate: (user: { username: string; email: string }) => void;

@@ -9,25 +9,35 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Zap, Droplets, Factory, ArrowRight, FileText, Leaf, TrendingUp, Award, Target } from "lucide-react";
 import type { FormData } from "./DataInputForm";
-import dashboardBg from "../assets/back_image.png";
 
 interface DashboardProps {
   formData: FormData;
   onProceed: () => void;
 }
 
-// todo: remove mock functionality - these would come from AI/ML analysis
+// Mock AI/ML results generator
 const generateMockResults = (formData: FormData) => {
-  const baseEmissions = formData.material === "aluminium" ? 16000 : formData.material === "copper" ? 4000 : 2000;
-  const inputEmissions = formData.emissions ? parseFloat(formData.emissions) : baseEmissions * 0.8;
-  
+  const baseEmissions =
+    formData.material === "aluminium"
+      ? 16000
+      : formData.material === "copper"
+      ? 4000
+      : 2000;
+  const inputEmissions = formData.emissions
+    ? parseFloat(formData.emissions)
+    : baseEmissions * 0.8;
+
   return {
     metrics: {
       co2Emissions: Math.round(inputEmissions),
-      energyIntensity: formData.energyUsage ? parseFloat(formData.energyUsage) : 14500,
+      energyIntensity: formData.energyUsage
+        ? parseFloat(formData.energyUsage)
+        : 14500,
       sustainabilityScore: 78,
       costEfficiency: 82,
-      waterUsage: formData.waterConsumption ? parseFloat(formData.waterConsumption) : 4800,
+      waterUsage: formData.waterConsumption
+        ? parseFloat(formData.waterConsumption)
+        : 4800,
     },
     radarData: [
       { category: "Energy", score: 75, benchmark: 60 },
@@ -68,34 +78,29 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background with 3D effect */}
+      {/* Background from public/ */}
       <div className="fixed inset-0 z-0">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{ backgroundImage: `url(${dashboardBg})` }}
+          style={{ backgroundImage: `url(/back_image.png)` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+
         {/* Animated gradient orbs */}
         <motion.div
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-          }}
+          animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
         />
         <motion.div
-          animate={{
-            x: [0, -80, 0],
-            y: [0, 80, 0],
-          }}
+          animate={{ x: [0, -80, 0], y: [0, 80, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl"
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto p-6 space-y-8">
-        {/* Hero Header Section */}
+        {/* Hero Header */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -105,7 +110,6 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
             background: `linear-gradient(135deg, hsl(var(--card) / 0.8) 0%, hsl(var(--card) / 0.4) 100%)`,
           }}
         >
-          {/* 3D decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 opacity-20">
             <motion.div
               animate={{ rotate: 360 }}
@@ -193,44 +197,13 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
           </div>
         </motion.div>
 
-        {/* Key Metrics with 3D effect */}
+        {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            {
-              title: "CO₂ Emissions",
-              value: results.metrics.co2Emissions.toLocaleString(),
-              unit: "kg/ton",
-              change: -12,
-              changeLabel: "vs benchmark",
-              icon: Flame,
-              color: "orange" as const,
-            },
-            {
-              title: "Energy Intensity",
-              value: results.metrics.energyIntensity.toLocaleString(),
-              unit: "kWh/ton",
-              change: -8,
-              changeLabel: "improvement",
-              icon: Zap,
-              color: "blue" as const,
-            },
-            {
-              title: "Sustainability Score",
-              value: results.metrics.sustainabilityScore,
-              unit: "/100",
-              change: 15,
-              changeLabel: "above avg",
-              icon: Leaf,
-              color: "green" as const,
-            },
-            {
-              title: "Water Efficiency",
-              value: results.metrics.waterUsage.toLocaleString(),
-              unit: "L/ton",
-              change: -5,
-              icon: Droplets,
-              color: "primary" as const,
-            },
+            { title: "CO₂ Emissions", value: results.metrics.co2Emissions.toLocaleString(), unit: "kg/ton", change: -12, changeLabel: "vs benchmark", icon: Flame, color: "orange" as const },
+            { title: "Energy Intensity", value: results.metrics.energyIntensity.toLocaleString(), unit: "kWh/ton", change: -8, changeLabel: "improvement", icon: Zap, color: "blue" as const },
+            { title: "Sustainability Score", value: results.metrics.sustainabilityScore, unit: "/100", change: 15, changeLabel: "above avg", icon: Leaf, color: "green" as const },
+            { title: "Water Efficiency", value: results.metrics.waterUsage.toLocaleString(), unit: "L/ton", change: -5, icon: Droplets, color: "primary" as const },
           ].map((metric, i) => (
             <motion.div
               key={metric.title}
@@ -244,57 +217,31 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
           ))}
         </div>
 
-        {/* Circular vs Linear LCA Comparison */}
+        {/* LCA Comparison */}
         <LCAComparison
           material={formData.material || "steel"}
           circularScore={results.circularLCA}
           linearScore={results.linearLCA}
         />
 
-        {/* Charts Row */}
+        {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <SustainabilityRadar
-              data={results.radarData}
-              title="Sustainability Performance vs Industry Benchmark"
-            />
+          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+            <SustainabilityRadar data={results.radarData} title="Sustainability Performance vs Industry Benchmark" />
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            <EmissionsChart
-              data={results.emissionsData}
-              title="Emissions Breakdown by LCA Stage (kg CO₂e/ton)"
-            />
+          <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
+            <EmissionsChart data={results.emissionsData} title="Emissions Breakdown by LCA Stage (kg CO₂e/ton)" />
           </motion.div>
         </div>
 
-        {/* AI Insights with 3D card effect */}
+        {/* Feature Contribution */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="lg:col-span-2"
-          >
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="lg:col-span-2">
             <GlassCard className="relative overflow-hidden">
-              {/* Decorative corner */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/10 to-transparent" />
-              
+
               <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="w-12 h-12 rounded-md bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center shadow-lg"
-                  style={{
-                    transform: "perspective(500px) rotateX(10deg)",
-                    boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)",
-                  }}
-                >
+                <div className="w-12 h-12 rounded-md bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center shadow-lg" style={{ transform: "perspective(500px) rotateX(10deg)", boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.5)" }}>
                   <Factory className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -310,19 +257,8 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
                   { label: "Scope 3", value: "Upstream", amount: "18%", color: "from-purple-500 to-pink-500" },
                   { label: "Other", value: "Transport/Waste", amount: "5%", color: "from-emerald-500 to-teal-500" },
                 ].map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.7 + i * 0.1 }}
-                    className="relative p-4 rounded-md overflow-hidden"
-                    style={{
-                      background: "hsl(var(--muted) / 0.5)",
-                    }}
-                  >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-10`}
-                    />
+                  <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.7 + i * 0.1 }} className="relative p-4 rounded-md overflow-hidden" style={{ background: "hsl(var(--muted) / 0.5)" }}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-10`} />
                     <div className="relative text-center">
                       <p className="text-xs text-muted-foreground mb-1">{item.label}</p>
                       <p className="text-2xl font-bold mb-1">{item.amount}</p>
@@ -332,23 +268,13 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
                 ))}
               </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1 }}
-                className="p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-md"
-              >
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-md">
                 <div className="flex items-start gap-3">
                   <Leaf className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium mb-1">India-Specific Context</p>
                     <p className="text-sm text-muted-foreground">
-                      Your facility performs{" "}
-                      <span className="text-primary font-semibold">15% better</span> than the
-                      Indian industry average for {formData.material} production. The primary
-                      improvement opportunity lies in transitioning to renewable energy sources
-                      for smelting operations, aligned with India's National Action Plan on
-                      Climate Change.
+                      Your facility performs <span className="text-primary font-semibold">15% better</span> than the Indian industry average for {formData.material} production. The primary improvement opportunity lies in transitioning to renewable energy sources for smelting operations, aligned with India's National Action Plan on Climate Change.
                     </p>
                   </div>
                 </div>
@@ -356,19 +282,11 @@ export default function Dashboard({ formData, onProceed }: DashboardProps) {
             </GlassCard>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <FeatureContribution
-              data={results.featureData}
-              title="AI Explainability"
-              description="Key factors influencing your sustainability score"
-            />
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+            <FeatureContribution data={results.featureData} title="AI Explainability" description="Key factors influencing your sustainability score" />
           </motion.div>
         </div>
       </div>
     </div>
   );
-} 
+}

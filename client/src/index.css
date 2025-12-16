@@ -286,4 +286,202 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+}@keyframes orangeGlow {
+  0% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0.45;
+  }
 }
+
+.animate-orangeGlow {
+  animation: orangeGlow 4s ease-in-out infinite;
+}
+
+/* 🔥 Floating furnace embers (very subtle) */
+@keyframes ember {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120vh) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.animate-ember {
+  animation: ember linear infinite;
+}
+
+/* =========================================================
+   AYASKRITI – Orange Industrial Hover Board (Auth Card)
+   ========================================================= */
+
+/* Base hover board effect */
+.auth-hover-board {
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Orange molten border glow */
+.auth-hover-board::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    hsl(24 85% 55% / 0.45),
+    transparent 80%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* Heat surface wash */
+.auth-hover-board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at top right,
+    hsl(24 85% 55% / 0.12),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+/* Hover state */
+.auth-hover-board:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px hsl(24 85% 55% / 0.35),
+    0 10px 40px hsl(24 85% 20% / 0.45);
+}
+
+.auth-hover-board:hover::before,
+.auth-hover-board:hover::after {
+  opacity: 1;
+}
+
+/* =========================================================
+   AYASKRITI – Auth Card Persistent Orange Border Glow
+   ========================================================= */
+
+/* Always-on subtle border glow */
+.auth-hover-board {
+  box-shadow:
+    0 0 0 1px hsl(24 85% 55% / 0.25),
+    0 0 18px hsl(24 85% 45% / 0.15);
+}
+
+/* Stronger molten glow on hover */
+.auth-hover-board:hover {
+  box-shadow:
+    0 0 0 1px hsl(24 85% 55% / 0.6),
+    0 0 30px hsl(24 85% 45% / 0.45),
+    0 15px 45px hsl(24 85% 20% / 0.55);
+}
+
+/* Animated border energy (very subtle pulse) */
+@keyframes borderGlowPulse {
+  0% {
+    box-shadow:
+      0 0 0 1px hsl(24 85% 55% / 0.25),
+      0 0 16px hsl(24 85% 45% / 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px hsl(24 85% 55% / 0.4),
+      0 0 24px hsl(24 85% 45% / 0.28);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px hsl(24 85% 55% / 0.25),
+      0 0 16px hsl(24 85% 45% / 0.15);
+  }
+}
+
+.auth-hover-board {
+  animation: borderGlowPulse 6s ease-in-out infinite;
+}
+
+/* =========================================================
+   AYASKRITI – Precision Dual-Circle Cursor (No Blur)
+   ========================================================= */
+
+/* =========================================================
+   AYASKRITI – Premium Precision Cursor (Refined)
+   ========================================================= */
+
+/* =========================================================
+   AYASKRITI – Dual Ring Spark Cursor (No Default Cursor)
+   ========================================================= */
+
+* {
+  cursor: none !important;
+}
+
+/* Main cursor dot */
+.cursor-core {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  background: hsl(24 85% 55%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+}
+
+/* Surrounding ring */
+.cursor-ring {
+  position: fixed;
+  width: 34px;
+  height: 34px;
+  border: 1.6px solid hsl(24 85% 55%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+/* Spark shard lines (NOT normal streaks) */
+.cursor-spark {
+  position: fixed;
+  width: 10px;
+  height: 2px;
+  background: hsl(24 85% 55%);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.9;
+  transform-origin: center;
+  animation: sparkFade 0.4s ease-out forwards;
+}
+
+@keyframes sparkFade {
+  from {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  to {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+}
+
+
+

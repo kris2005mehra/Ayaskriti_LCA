@@ -14,7 +14,19 @@ import Dashboard from "@/components/Dashboard";
 import ModifyInputsDialog from "@/components/ModifyInputsDialog";
 import RecommendationsPage from "@/components/RecommendationsPage";
 
-type AppView = "auth" | "input" | "processing" | "dashboard" | "modify" | "report";
+/* 🔥 Custom Cursor */
+import CustomCursor from "@/components/CustomCursor";
+
+/* 🔥 GLOBAL BACKGROUND IMAGE */
+import appBg from "./assets/back_image.png";
+
+type AppView =
+  | "auth"
+  | "input"
+  | "processing"
+  | "dashboard"
+  | "modify"
+  | "report";
 
 interface User {
   username: string;
@@ -29,7 +41,12 @@ function AyaskritiApp() {
   const [processingProgress, setProcessingProgress] = useState(0);
   const { toast } = useToast();
 
-  // todo: remove mock functionality - simulate processing
+  /* 🔒 FORCE DARK MODE ONLY */
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+  }, []);
+
   const simulateProcessing = async () => {
     const steps = 4;
     const totalDuration = 4000;
@@ -37,21 +54,16 @@ function AyaskritiApp() {
 
     for (let i = 0; i < steps; i++) {
       setProcessingStep(i);
-      const startProgress = (i / steps) * 100;
       const endProgress = ((i + 1) / steps) * 100;
-      
-      const progressInterval = setInterval(() => {
-        setProcessingProgress((prev) => {
-          if (prev >= endProgress - 5) {
-            clearInterval(progressInterval);
-            return endProgress;
-          }
-          return prev + 2;
-        });
+
+      const interval = setInterval(() => {
+        setProcessingProgress((prev) =>
+          Math.min(prev + 2, endProgress)
+        );
       }, stepDuration / 10);
 
-      await new Promise((resolve) => setTimeout(resolve, stepDuration));
-      clearInterval(progressInterval);
+      await new Promise((r) => setTimeout(r, stepDuration));
+      clearInterval(interval);
       setProcessingProgress(endProgress);
     }
   };
@@ -82,118 +94,67 @@ function AyaskritiApp() {
     setProcessingProgress(0);
 
     await simulateProcessing();
-    
     setView("dashboard");
+
     toast({
       title: "Analysis Complete",
       description: "Your sustainability analysis is ready",
     });
   };
 
-  const handleDashboardProceed = () => {
-    setView("modify");
-  };
-
-  const handleModifyInputs = () => {
-    setView("input");
-  };
-
-  const handleContinueToReport = () => {
-    setView("report");
-  };
-
-  const handleBackToDashboard = () => {
-    setView("dashboard");
-  };
-
-  const handleExportReport = () => {
-    // todo: remove mock functionality - implement actual Excel export
-    toast({
-      title: "Report Exported",
-      description: "Your Excel report has been downloaded",
-    });
-  };
-
-  const handleNewAnalysis = () => {
-    setFormData(null);
-    setView("input");
-  };
-
-  const handleBackFromInput = () => {
-    if (formData) {
-      setView("dashboard");
-    } else {
-      setView("auth");
-    }
-  };
-
-  // Load theme preference
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative overflow-hidden bg-black">
+      
+      {/* 🌑 BACKGROUND — ONLY AFTER LOGIN */}
+      {user && (
+        <>
+          <div
+            className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${appBg})`,
+              filter: "blur(3px)",
+              opacity: 0.45,
+            }}
+          />
+          <div className="fixed inset-0 -z-10 bg-black/70" />
+        </>
+      )}
+
+      {/* 🔥 CUSTOM CURSOR */}
+      <CustomCursor />
+
       <AnimatePresence mode="wait">
         {view === "auth" && (
-          <motion.div
-            key="auth"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div key="auth" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <AuthPage onAuthenticate={handleAuthenticate} />
           </motion.div>
         )}
 
         {view === "input" && (
-          <motion.div
-            key="input"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div key="input" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <Header user={user || undefined} onLogout={handleLogout} />
-            <DataInputForm onSubmit={handleFormSubmit} onBack={handleBackFromInput} />
+            <DataInputForm onSubmit={handleFormSubmit} onBack={() => setView("auth")} />
           </motion.div>
         )}
 
         {view === "processing" && (
-          <motion.div
-            key="processing"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ProcessingOverlay
-              currentStep={processingStep}
-              progress={processingProgress}
-            />
+          <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <ProcessingOverlay currentStep={processingStep} progress={processingProgress} />
           </motion.div>
         )}
 
         {view === "dashboard" && formData && (
-          <motion.div
-            key="dashboard"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <Header user={user || undefined} onLogout={handleLogout} />
-            <Dashboard formData={formData} onProceed={handleDashboardProceed} />
+            <Dashboard formData={formData} onProceed={() => setView("modify")} />
           </motion.div>
         )}
 
         {view === "modify" && (
           <ModifyInputsDialog
-            isOpen={true}
-            onModify={handleModifyInputs}
-            onContinue={handleContinueToReport}
+            isOpen
+            onModify={() => setView("input")}
+            onContinue={() => setView("report")}
             summary={{
               co2Emissions: "2,450 kg",
               energyIntensity: "14.5 kWh",
@@ -203,18 +164,15 @@ function AyaskritiApp() {
         )}
 
         {view === "report" && formData && (
-          <motion.div
-            key="report"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div key="report" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <Header user={user || undefined} onLogout={handleLogout} />
             <RecommendationsPage
               formData={formData}
-              onBack={handleBackToDashboard}
-              onExport={handleExportReport}
-              onNewAnalysis={handleNewAnalysis}
+              onBack={() => setView("dashboard")}
+              onExport={() =>
+                toast({ title: "Report Exported", description: "Excel downloaded" })
+              }
+              onNewAnalysis={() => setView("input")}
             />
           </motion.div>
         )}

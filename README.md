@@ -73,4 +73,7 @@ Ayaskriti addresses these challenges by providing:
 * **Policy Compliance:** Supports ESG and sustainability reporting.
 * **Circular Economy Promotion:** Encourages recycling, reuse, and material recovery.
 ---
-## Made with ❤️ by Kris Mehra
+<p align="center">
+  <strong>Made with ❤️ by Kris Mehra</strong>
+</p>
+

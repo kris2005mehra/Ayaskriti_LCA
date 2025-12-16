@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Zap, Droplets, Factory, ArrowRight, FileText, Leaf, TrendingUp, Award, Target } from "lucide-react";
 import type { FormData } from "./DataInputForm";
-import dashboardBg from "./assets/back_image.png";
+import dashboardBg from "../assets/back_image.png";
 
 interface DashboardProps {
   formData: FormData;

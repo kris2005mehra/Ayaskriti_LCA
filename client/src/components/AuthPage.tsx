@@ -24,15 +24,18 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
     e.preventDefault();
     setIsLoading(true);
 
-    // simulate auth delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     onAuthenticate({
       username: formData.username || formData.email.split("@")[0],
       email: formData.email,
     });
+
     setIsLoading(false);
   };
+
+  // Base URL for GitHub Pages deployment
+  const BASE_URL = import.meta.env.BASE_URL;
 
   return (
     <div className="min-h-screen flex">
@@ -43,11 +46,10 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
         transition={{ duration: 0.8 }}
         className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
       >
-        {/* Background Image from public/ */}
+        {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}back_image.png)`,
-}}
+          style={{ backgroundImage: `url(${BASE_URL}back_image.png)` }}
         />
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
@@ -73,6 +75,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
           ))}
         </div>
 
+        {/* Logo and Text */}
         <div className="relative z-10 flex flex-col justify-between p-12 text-white">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-md bg-primary/90 flex items-center justify-center">
@@ -141,6 +144,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="w-full max-w-md"
         >
+          {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
             <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center">
               <Flame className="w-6 h-6 text-white" />
@@ -149,6 +153,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
           </div>
 
           <GlassCard className="p-8 auth-hover-board">
+            {/* Form Header */}
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold mb-2">
                 {isLogin ? "Welcome Back" : "Create Account"}
@@ -160,6 +165,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
               </p>
             </div>
 
+            {/* Auth Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
               <AnimatePresence mode="wait">
                 {!isLogin && (
@@ -174,7 +180,6 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
                         id="username"
-                        data-testid="input-username"
                         placeholder="Enter username"
                         className="pl-10"
                         value={formData.username}
@@ -187,6 +192,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                 )}
               </AnimatePresence>
 
+              {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -194,7 +200,6 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                   <Input
                     id="email"
                     type="email"
-                    data-testid="input-email"
                     placeholder="you@company.com"
                     className="pl-10"
                     value={formData.email}
@@ -206,6 +211,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                 </div>
               </div>
 
+              {/* Password */}
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
@@ -213,7 +219,6 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                   <Input
                     id="password"
                     type="password"
-                    data-testid="input-password"
                     placeholder="Enter password"
                     className="pl-10"
                     value={formData.password}
@@ -225,6 +230,7 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                 </div>
               </div>
 
+              {/* Confirm Password */}
               <AnimatePresence mode="wait">
                 {!isLogin && (
                   <motion.div
@@ -239,7 +245,6 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                       <Input
                         id="confirmPassword"
                         type="password"
-                        data-testid="input-confirm-password"
                         placeholder="Confirm password"
                         className="pl-10"
                         value={formData.confirmPassword}
@@ -252,15 +257,9 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
                 )}
               </AnimatePresence>
 
-              <Button
-                type="submit"
-                data-testid="button-auth-submit"
-                className="w-full gap-2"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
+              {/* Submit Button */}
+              <Button type="submit" className="w-full gap-2" disabled={isLoading}>
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                   <>
                     {isLogin ? "Sign In" : "Create Account"}
                     <ArrowRight className="w-4 h-4" />
@@ -269,10 +268,10 @@ export default function AuthPage({ onAuthenticate }: AuthPageProps) {
               </Button>
             </form>
 
+            {/* Toggle Login / Sign Up */}
             <div className="mt-6 text-center">
               <button
                 type="button"
-                data-testid="button-toggle-auth-mode"
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >

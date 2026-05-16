@@ -15,56 +15,7 @@ interface DashboardProps {
   onProceed: () => void;
 }
 
-// Mock AI/ML results generator
-const generateMockResults = (formData: FormData) => {
-  const baseEmissions =
-    formData.material === "aluminium"
-      ? 16000
-      : formData.material === "copper"
-      ? 4000
-      : 2000;
-  const inputEmissions = formData.emissions
-    ? parseFloat(formData.emissions)
-    : baseEmissions * 0.8;
-
-  return {
-    metrics: {
-      co2Emissions: Math.round(inputEmissions),
-      energyIntensity: formData.energyUsage
-        ? parseFloat(formData.energyUsage)
-        : 14500,
-      sustainabilityScore: 78,
-      costEfficiency: 82,
-      waterUsage: formData.waterConsumption
-        ? parseFloat(formData.waterConsumption)
-        : 4800,
-    },
-    radarData: [
-      { category: "Energy", score: 75, benchmark: 60 },
-      { category: "Emissions", score: 82, benchmark: 65 },
-      { category: "Water", score: 68, benchmark: 70 },
-      { category: "Waste", score: 71, benchmark: 55 },
-      { category: "Materials", score: 88, benchmark: 72 },
-      { category: "Transport", score: 65, benchmark: 60 },
-    ],
-    emissionsData: [
-      { stage: "Raw Material Extraction", value: Math.round(inputEmissions * 0.18) },
-      { stage: "Transportation", value: Math.round(inputEmissions * 0.07) },
-      { stage: "Processing & Smelting", value: Math.round(inputEmissions * 0.52) },
-      { stage: "Energy Generation", value: Math.round(inputEmissions * 0.18) },
-      { stage: "Waste Management", value: Math.round(inputEmissions * 0.05) },
-    ],
-    featureData: [
-      { feature: "Energy Efficiency", contribution: 24.5, direction: "positive" as const },
-      { feature: "Process Type", contribution: 18.2, direction: "positive" as const },
-      { feature: "Transport Distance", contribution: 12.8, direction: "negative" as const },
-      { feature: "Water Usage", contribution: 8.4, direction: "negative" as const },
-      { feature: "Raw Material Source", contribution: 15.1, direction: "positive" as const },
-    ],
-    circularLCA: Math.round(inputEmissions * 0.45),
-    linearLCA: Math.round(inputEmissions),
-  };
-};
+import { computeLCAResults } from "@/lib/lcaCalculations";
 
 const materialIcons = {
   aluminium: { icon: "🔘", gradient: "from-slate-400 to-zinc-500" },
@@ -73,7 +24,7 @@ const materialIcons = {
 };
 
 export default function Dashboard({ formData, onProceed }: DashboardProps) {
-  const results = generateMockResults(formData);
+  const results = computeLCAResults(formData);
   const materialStyle = materialIcons[formData.material || "steel"];
 
   return (

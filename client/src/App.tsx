@@ -168,9 +168,7 @@ function AyaskritiApp() {
             <RecommendationsPage
               formData={formData}
               onBack={() => setView("dashboard")}
-              onExport={() =>
-                toast({ title: "Report Exported", description: "Excel downloaded" })
-              }
+              onExport={() => {}}
               onNewAnalysis={() => setView("input")}
             />
           </motion.div>

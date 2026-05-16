@@ -31,7 +31,6 @@ const formSteps: WorkflowStep[] = [
   { id: "material", title: "Material" },
   { id: "energy", title: "Energy" },
   { id: "process", title: "Process" },
-  { id: "review", title: "Review" },
 ];
 
 export default function DataInputForm({ onSubmit, onBack }: DataInputFormProps) {
@@ -273,34 +272,7 @@ export default function DataInputForm({ onSubmit, onBack }: DataInputFormProps) 
           </div>
         );
 
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Review Your Data</h3>
-              <p className="text-muted-foreground">
-                Verify your inputs before submitting for analysis
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                { label: "Material", value: formData.material?.toUpperCase() },
-                { label: "Energy Usage", value: formData.energyUsage ? `${formData.energyUsage} kWh/ton` : "Not provided" },
-                { label: "CO2 Emissions", value: formData.emissions ? `${formData.emissions} kg/ton` : "Not provided" },
-                { label: "Transport Distance", value: formData.transportDistance ? `${formData.transportDistance} km` : "Not provided" },
-                { label: "Process Type", value: formData.processType || "Not provided" },
-                { label: "Production Volume", value: formData.productionVolume ? `${formData.productionVolume} tons/year` : "Not provided" },
-                { label: "Raw Material Source", value: formData.rawMaterialSource || "Not provided" },
-                { label: "Water Consumption", value: formData.waterConsumption ? `${formData.waterConsumption} L/ton` : "Not provided" },
-              ].map((item, i) => (
-                <div key={i} className="p-4 bg-muted/50 rounded-md">
-                  <p className="text-sm text-muted-foreground">{item.label}</p>
-                  <p className="font-medium">{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
+
 
       default:
         return null;
